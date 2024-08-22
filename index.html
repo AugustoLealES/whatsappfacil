@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Mensagem no WhatsApp</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e0f7e0; /* Light green background */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff; /* White background for better contrast */
+            padding: 40px; /* Adjusted padding for better centering */
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 400px; /* Limit the width for better UI */
+            display: flex;
+            flex-direction: column; /* Stack elements vertically */
+            align-items: center; /* Center items horizontally */
+            justify-content: center; /* Center items vertically */
+        }
+        h1 {
+            text-align: center;
+            color: #2e7d32; /* Darker green for the title */
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2e7d32; /* Darker green for labels */
+            font-weight: bold;
+        }
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #4caf50; /* Green border */
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        input[type="tel"]:focus,
+        textarea:focus {
+            border-color: #388e3c; /* Darker green on focus */
+            outline: none;
+        }
+        button {
+            background-color: #4caf50; /* Green button */
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #388e3c; /* Darker green on hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+        button:active {
+            transform: scale(0.95); /* Slightly shrink on click */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enviar Mensagem</h1>
+        <label for="phone">Números de Telefone (separados por vírgula):</label>
+        <input type="tel" id="phone" name="phone" placeholder="Digite seus números de telefone" required>
+        
+        <label for="message">Mensagem Predefinida:</label>
+        <textarea id="message" name="message" placeholder="Digite sua mensagem aqui" required></textarea>
+        
+        <button type="button" onclick="sendMessage()">Enviar Mensagem</button>
+    </div>
+
+    <script>
+        function sendMessage() {
+            const phoneInput = document.getElementById('phone').value;
+            const phoneNumbers = phoneInput.split(',').map(num => num.replace(/\D/g, '').trim()); // Remove non-numeric characters and split by comma
+            const message = document.getElementById('message').value;
+
+            phoneNumbers.forEach(phoneNumber => {
+                if (phoneNumber) {
+                    // Adiciona o código de país 55 se não estiver presente
+                    if (!phoneNumber.startsWith('55')) {
+                        phoneNumber = '55' + phoneNumber;
+                    }
+                    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappUrl, '_blank');
+                } else {
+                    alert('Por favor, insira um número de telefone válido.');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
